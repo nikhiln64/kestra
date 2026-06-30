@@ -22,8 +22,12 @@
             <DeleteOutline />
         </button>
         <div v-if="elementIndex !== undefined" class="d-flex flex-column">
-            <ChevronUp @click.prevent.stop="emits('moveElement', 'up')" />
-            <ChevronDown @click.prevent.stop="emits('moveElement', 'down')" />
+            <KsIconButton :tooltip="t('block_editor.move_up')" @click.prevent.stop="emits('moveElement', 'up')">
+                <ChevronUp />
+            </KsIconButton>
+            <KsIconButton :tooltip="t('block_editor.move_down')" @click.prevent.stop="emits('moveElement', 'down')">
+                <ChevronDown />
+            </KsIconButton>
         </div>
     </div>
 </template>
@@ -43,7 +47,7 @@
         EDIT_TASK_FUNCTION_INJECTION_KEY,
     } from "../../../injectionKeys"
 
-    import {KsTaskIcon} from "@kestra-io/design-system"
+    import {KsTaskIcon, KsIconButton} from "@kestra-io/design-system"
 
     const emits = defineEmits(["removeElement", "moveElement"])
 
@@ -149,7 +153,8 @@
         border: none;
     }
 
-    .delete-element {        color: var(--ks-btn-primary-text);
+    .delete-element {
+        color: var(--ks-btn-primary-text);
         border: none;
         background-color: transparent;
     }
