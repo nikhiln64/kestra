@@ -304,8 +304,8 @@
     }>()
 
     const icon = {
-        UnfoldLessHorizontal: shallowRef(UnfoldLessHorizontal),
-        UnfoldMoreHorizontal: shallowRef(UnfoldMoreHorizontal),
+        UnfoldLessHorizontal,
+        UnfoldMoreHorizontal,
     } as const
 
     const storedEditorFontSizeOverride = useStorage<number | null>("editorFontSize", null, localStorage, {
