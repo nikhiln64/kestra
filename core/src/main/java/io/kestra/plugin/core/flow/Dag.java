@@ -256,6 +256,7 @@ public class Dag extends Task implements FlowableTask<VoidOutput> {
     @NoArgsConstructor
     public static class DagTask {
         @NotNull
+        @Valid
         @Schema(
             title = "The task within the DAG"
         )
