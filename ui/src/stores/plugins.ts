@@ -266,11 +266,12 @@ export const usePluginsStore = defineStore("plugins", () => {
             `${apiUrlWithoutTenants()}/plugins/${options.cls}`
 
         const response = await axios.get<PluginComponent>(url, options.all ? {
+            ignoreNotFound: true,
             params: {
                 all: options.all,
                 hash: options.hash,
             },
-        } : {})
+        } : {ignoreNotFound: true})
 
         if (options.commit !== false) {
             if (options.all === true) {
