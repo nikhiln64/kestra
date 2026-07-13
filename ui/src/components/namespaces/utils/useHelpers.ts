@@ -107,8 +107,10 @@ export function useHelpers() {
             props: {
                 namespace: namespace.value,
                 topbar: false,
+                fitHeight: true,
                 defaultScopeFilter: false,
             },
+            fullContainer: true,
         },
         {
             name: "executions",
@@ -117,10 +119,12 @@ export function useHelpers() {
             props: {
                 namespace: namespace.value,
                 topbar: false,
+                fitHeight: true,
                 visibleCharts: true,
                 embed: false,
                 defaultScopeFilter: false,
             },
+            fullContainer: true,
         },
         {
             name: "dependencies",

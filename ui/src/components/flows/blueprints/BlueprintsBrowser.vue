@@ -405,12 +405,6 @@
         }
     }
 
-    .table-slot-fit {
-        flex: 1 1 0;
-        min-height: 0;
-        overflow-y: auto;
-    }
-
     .card-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(297px, 1fr));

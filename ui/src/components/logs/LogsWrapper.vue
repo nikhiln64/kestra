@@ -27,7 +27,7 @@
                 </template>
 
                 <template v-if="showStatChart() && logsStore.logs && logsStore.logs.length > 0" #top>
-                    <Sections ref="dashboard" :charts :dashboard="{id: 'default', charts: []}" showDefault class="mb-4" />
+                    <Sections ref="dashboard" :charts :dashboard="{id: 'default', charts: []}" showDefault fit class="mb-4" />
                 </template>
 
                 <template #table>

@@ -10,7 +10,7 @@
             </ul>
         </template>
     </TopNavBar>
-    <section class="full-container padding-bottom">
+    <section class="full-container">
         <KVTable />
     </section>
 </template>
