@@ -24,16 +24,15 @@ const state = {
 vi.mock("../../../../../src/components/ai/copilot/useAiChat", () => ({useAiChat: () => state}))
 // The provider list is fetched on mount — stub the SDK so no real request fires.
 vi.mock("@kestra-io/kestra-sdk/ai", () => ({providers: vi.fn().mockResolvedValue([])}))
-// Edition gate: default to EE; individual tests flip `misc.configs.edition` to "OSS".
-const {misc} = vi.hoisted(() => ({misc: {configs: {edition: "EE"}}}))
-vi.mock("override/stores/misc", () => ({useMiscStore: () => misc}))
+// Thread management is an EE-only override component; OSS resolves a no-op stub. Stub it here
+// so we can assert CopilotChat renders it and forwards its `select` to loadThread.
+vi.mock("override/components/ai/copilot/CopilotThreadControls.vue", () => ({
+    default: {name: "CopilotThreadControls", props: ["activeId"], emits: ["select"], template: "<div class=\"thread-controls-stub\" />"},
+}))
 
 import CopilotChat from "../../../../../src/components/ai/copilot/CopilotChat.vue"
 
-// Stub the thread list so it doesn't reach useAiThreads/useClient; we test the wiring.
-const threadListStub = {name: "CopilotThreadList", props: ["activeId"], emits: ["select"], template: "<div class=\"thread-list-stub\" />"}
-const mountChat = (props = {}) =>
-    mount(CopilotChat, {props, global: {...mountGlobal, stubs: {...mountGlobal.stubs, CopilotThreadList: threadListStub}}})
+const mountChat = (props = {}) => mount(CopilotChat, {props, global: mountGlobal})
 
 describe("CopilotChat", () => {
     beforeEach(() => {
@@ -48,7 +47,6 @@ describe("CopilotChat", () => {
         state.reset.mockReset()
         state.retry.mockReset()
         state.loadThread.mockReset()
-        misc.configs.edition = "EE"
     })
 
     it("shows the empty state when there are no messages", () => {
@@ -122,26 +120,17 @@ describe("CopilotChat", () => {
         expect(state.reset).toHaveBeenCalled()
     })
 
-    it("shows the recents control with the thread list", () => {
+    it("renders the (EE-overridable) thread controls and New chat", () => {
         const w = mountChat()
-        expect(w.find("[data-test=\"copilot-recents\"]").exists()).toBe(true)
-        expect(w.findComponent({name: "CopilotThreadList"}).exists()).toBe(true)
+        expect(w.findComponent({name: "CopilotThreadControls"}).exists()).toBe(true)
+        expect(w.find("[data-test=\"copilot-new-chat\"]").exists()).toBe(true)
     })
 
-    it("switches to a thread selected from the list", async () => {
+    it("switches to a thread selected from the controls", async () => {
         const w = mountChat()
-        w.findComponent({name: "CopilotThreadList"}).vm.$emit("select", "t-42")
+        w.findComponent({name: "CopilotThreadControls"}).vm.$emit("select", "t-42")
         await flushPromises()
         expect(state.loadThread).toHaveBeenCalledWith("t-42")
-    })
-
-    it("hides the Recents thread list in OSS (EE-only feature)", () => {
-        misc.configs.edition = "OSS"
-        const w = mountChat()
-        expect(w.find("[data-test=\"copilot-recents\"]").exists()).toBe(false)
-        expect(w.findComponent({name: "CopilotThreadList"}).exists()).toBe(false)
-        // New chat stays — OSS still has its single session.
-        expect(w.find("[data-test=\"copilot-new-chat\"]").exists()).toBe(true)
     })
 
     it("shows the AI-unavailable state (and no composer) when unavailable", () => {
