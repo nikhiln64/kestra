@@ -19,7 +19,7 @@
             </NavBarActions>
         </template>
     </TopNavBar>
-    <section :class="{container: topbar}">
+    <section :class="{'full-container': topbar}">
         <KsDataTable
             ref="dataTable"
             :loadData="loadData"
@@ -38,6 +38,7 @@
             :no-data-text="$t('no_results.flows')"
             class="flows-table"
             :rowKey="(row: any) => `${row.namespace}-${row.id}`"
+            :fitHeight="topbar"
         >
             <template #top>
                 <KSFilter

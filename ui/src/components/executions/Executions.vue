@@ -34,7 +34,7 @@
             </ul>
         </template>
     </TopNavBar>
-    <section :class="{'container padding-bottom': topbar}">
+    <section :class="{'full-container': topbar}">
         <KsDataTable
             ref="dataTable"
             :loadData="loadData"
@@ -51,6 +51,7 @@
             :selectable="!hidden?.includes('selection') && canCheck"
             :no-data-text="$t('no_results.executions')"
             :rowKey="(row: any) => row.id"
+            :fitHeight="topbar"
         >
             <template #navbar v-if="isDisplayedTop">
                 <KSFilter
@@ -1079,10 +1080,6 @@
 <style scoped lang="scss">
 .shadow {
     box-shadow: 0px 2px 4px 0px var(--ks-shadow-element) !important;
-}
-
-.padding-bottom {
-    padding-bottom: 4rem;
 }
 
 .custom-warning {

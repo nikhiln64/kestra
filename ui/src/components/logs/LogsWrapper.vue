@@ -1,6 +1,6 @@
 <template>
     <TopNavBar v-if="!embed" :title="routeInfo.title" />
-    <section v-bind="$attrs" :class="{'container': !embed}" class="log-panel">
+    <section v-bind="$attrs" :class="{'full-container': !embed}" class="log-panel">
         <div class="log-content">
             <KsDataTable
                 ref="dataTable"
@@ -11,6 +11,7 @@
                 @loaded="onLoaded"
                 @page-changed="onPageChanged"
                 :total="logsStore.total"
+                :fitHeight="!embed"
             >
                 <template #navbar v-if="!embed || showFilters">
                     <KSFilter
@@ -30,7 +31,7 @@
                 </template>
 
                 <template #table>
-                    <div v-ks-loading="isLoading">
+                    <div class="logs-table-fit" v-ks-loading="isLoading">
                         <div class="logs-toolbar">
                             <div class="logs-toolbar__left">
                                 <LogLevelNavigator
@@ -443,6 +444,14 @@
         box-shadow: 0px 2px 4px 0px var(--ks-shadow-element) !important;
     }
 
+    .logs-table-fit {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 0;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
     .logs-toolbar {
         display: flex;
         flex-wrap: wrap;
@@ -478,6 +487,9 @@
     .log-panel {
         > div.log-content {
             margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
             .navbar {
                 border: 1px solid var(--ks-border-default);
             }
@@ -488,9 +500,12 @@
         }
 
         .logs-wrapper {
+            flex: 1 1 0;
+            min-height: 0;
             margin-bottom: 1rem;
             border-radius: var(--kel-border-radius-round);
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
             padding: 1rem;
             margin: 0 var(--ks-spacing-6);
             padding-top: .5rem;

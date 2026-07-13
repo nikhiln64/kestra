@@ -19,6 +19,7 @@ export interface Tab {
     props?: Record<string, any>;
     count?: number;
     blueprintDetail?: boolean;
+    fullContainer?: boolean;
 }
 
 export interface Breadcrumb {
