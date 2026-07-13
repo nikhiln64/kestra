@@ -1430,6 +1430,7 @@
           "labels": "Etiquetas",
           "listeners": "Oyentes",
           "outputs": "Salidas",
+          "quotas": "Cuotas",
           "retry": "Reintentar",
           "sla": "SLA",
           "taskDefaults": "Predeterminados de Task",
@@ -1466,6 +1467,7 @@
         "deprecated": "Propiedades obsoletas",
         "errors": "Manejadores de Errores",
         "finally": "Finalmente",
+        "flow": "Flow",
         "pluginDefaults": "Predeterminados del Plugin",
         "tasks": "Tareas",
         "triggers": "Disparadores"

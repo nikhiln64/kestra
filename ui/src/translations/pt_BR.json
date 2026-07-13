@@ -1430,6 +1430,7 @@
           "labels": "Etiquetas",
           "listeners": "Ouvintes",
           "outputs": "Saídas",
+          "quotas": "Cotas",
           "retry": "Repetir",
           "sla": "SLA",
           "taskDefaults": "Padrões de Task",
@@ -1466,6 +1467,7 @@
         "deprecated": "Propriedades obsoletas",
         "errors": "Manipuladores de Erro",
         "finally": "Finalmente",
+        "flow": "Flow",
         "pluginDefaults": "Padrões de Plugin",
         "tasks": "Tarefas",
         "triggers": "Triggers"

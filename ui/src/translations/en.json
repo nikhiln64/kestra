@@ -1430,6 +1430,7 @@
           "labels": "Labels",
           "listeners": "Listeners",
           "outputs": "Outputs",
+          "quotas": "Quotas",
           "retry": "Retry",
           "sla": "SLA",
           "taskDefaults": "Task Defaults",
@@ -1466,6 +1467,7 @@
         "deprecated": "Deprecated properties",
         "errors": "Error Handlers",
         "finally": "Finally",
+        "flow": "Flow",
         "pluginDefaults": "Plugin Defaults",
         "tasks": "Tasks",
         "triggers": "Triggers"

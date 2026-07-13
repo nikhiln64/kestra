@@ -1430,6 +1430,7 @@
           "labels": "Etykiety",
           "listeners": "Słuchacze",
           "outputs": "Wyjścia",
+          "quotas": "Limity",
           "retry": "Ponów próbę",
           "sla": "SLA",
           "taskDefaults": "Domyślne ustawienia Task",
@@ -1466,6 +1467,7 @@
         "deprecated": "Właściwości przestarzałe",
         "errors": "Obsługa błędów",
         "finally": "Na koniec",
+        "flow": "Flow",
         "pluginDefaults": "Domyślne ustawienia Pluginów",
         "tasks": "Zadania",
         "triggers": "Triggery"
