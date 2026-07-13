@@ -24,6 +24,9 @@ const state = {
 vi.mock("../../../../../src/components/ai/copilot/useAiChat", () => ({useAiChat: () => state}))
 // The provider list is fetched on mount — stub the SDK so no real request fires.
 vi.mock("@kestra-io/kestra-sdk/ai", () => ({providers: vi.fn().mockResolvedValue([])}))
+// Edition gate: default to EE; individual tests flip `misc.configs.edition` to "OSS".
+const {misc} = vi.hoisted(() => ({misc: {configs: {edition: "EE"}}}))
+vi.mock("override/stores/misc", () => ({useMiscStore: () => misc}))
 
 import CopilotChat from "../../../../../src/components/ai/copilot/CopilotChat.vue"
 
@@ -45,6 +48,7 @@ describe("CopilotChat", () => {
         state.reset.mockReset()
         state.retry.mockReset()
         state.loadThread.mockReset()
+        misc.configs.edition = "EE"
     })
 
     it("shows the empty state when there are no messages", () => {
@@ -129,6 +133,15 @@ describe("CopilotChat", () => {
         w.findComponent({name: "CopilotThreadList"}).vm.$emit("select", "t-42")
         await flushPromises()
         expect(state.loadThread).toHaveBeenCalledWith("t-42")
+    })
+
+    it("hides the Recents thread list in OSS (EE-only feature)", () => {
+        misc.configs.edition = "OSS"
+        const w = mountChat()
+        expect(w.find("[data-test=\"copilot-recents\"]").exists()).toBe(false)
+        expect(w.findComponent({name: "CopilotThreadList"}).exists()).toBe(false)
+        // New chat stays — OSS still has its single session.
+        expect(w.find("[data-test=\"copilot-new-chat\"]").exists()).toBe(true)
     })
 
     it("shows the AI-unavailable state (and no composer) when unavailable", () => {
