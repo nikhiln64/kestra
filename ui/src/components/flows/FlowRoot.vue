@@ -35,9 +35,10 @@
     import DemoAuditLogs from "../demo/AuditLogs.vue"
     import {useAuthStore} from "override/stores/auth"
     import {useMiscStore} from "override/stores/misc"
-    import {computed, onBeforeUnmount, onMounted, onUnmounted, ref, watch} from "vue"
+    import {computed, onBeforeUnmount, onUnmounted, ref, watch} from "vue"
     import {useRoute, useRouter} from "vue-router"
     import {useI18n} from "vue-i18n"
+    import useRouteContext from "../../composables/useRouteContext"
 
     export interface Tab {
         name: string
@@ -232,18 +233,7 @@
 
         const ready = computed(() => user.value && flowStore.flow)
 
-        // RouteContext mixin: update document title on route change
-        function handleTitle() {
-            let baseTitle: string
-            if (document.title.lastIndexOf("|") > 0) {
-                baseTitle = document.title.substring(document.title.lastIndexOf("|") + 1)
-            } else {
-                baseTitle = document.title
-            }
-            document.title = routeInfo.value.title + " | " + baseTitle
-        }
-
-        watch(() => route.fullPath, () => handleTitle())
+        useRouteContext(routeInfo)
 
         watch(tabs, () => syncTabsToStore(), {immediate: true, deep: true})
 
@@ -291,8 +281,6 @@
         // NOTE: Flow creation component is ./FlowCreate.vue
         flowStore.isCreating = false
         load()
-
-        onMounted(() => handleTitle())
 
         onBeforeUnmount(() => {
             routeTabsStore.clearTabsIfOwner(tabsOwnerId)
